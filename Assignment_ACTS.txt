@@ -65,7 +65,20 @@ INSERT into Orders Values (3011, 9891.88, 19960610, 2006, 1001);
 SElect * from customers 
 where city is null;
 
-4.
+4.WRONG LOGIC=select 
+	s.Snum, SName, count(o.snum) As OrderCount, max(o.amt) As 	AMOUNT, o.odate
+	from 
+	salespeople s
+	INNER JOIN orders o
+	ON s.snum = o.snum
+	GROUP BY odate
+	Order by s.Snum;
+
+4. 
+select sname, odate, max(amt) 
+from salespeople s inner join orders o
+on s.snum=o.snum
+group by o.snum, odate; 
   
 
 5.
@@ -82,27 +95,171 @@ SELECT Cname, Sname
 From salespeople s INNER JOIN customers c
 On s.Snum=c.Snum;
 
-8
-SELECT s.Sname , count(s.snum)
-from salespeople s INNER JOIN customers c
-on s.snum=c.snum;
+8. WRONG LOGIC
+select 
+SName, count(o.snum)
+from 
+salespeople s
+INNER JOIN orders o
+ON s.snum = o.snum
+GROUP BY Sname
+Having count(Sname)>1;
+
+8.
+select 
+SName, count(c.snum) As CustCount
+from 
+salespeople s
+INNER JOIN customers c
+ON s.snum = c.snum
+GROUP BY Sname
+Having count(Sname)>1;
+
+9.select 
+SName, count(o.snum)
+from 
+salespeople s
+INNER JOIN orders o
+ON s.snum = o.snum
+GROUP BY Sname
+order by count(o.snum) desc;
 
 
-9.select s
+10.
+  select * from 
+    customers
+  where (select count(city) from customers
+    where city ='San Jose')>1;
 
 
-10.SELECT * from customers 
-    where City = 'San Jose';
+11.  #OUTPUT WRONG
+  SELECT Cname, Sname, c.city
+From salespeople s inner JOIN customers c
+On s.snum=c.snum
+where s.city=c.city;
 
-11.  
-  SELECT
 
+12.
+select 
+s.Snum, SName, count(o.snum) As OrderCount, max(o.amt) As AMOUNT
+from 
+salespeople s
+INNER JOIN orders o
+ON s.snum = o.snum
+GROUP BY Sname
+Order by s.Snum;
 
 13.SELECT CName from customers 
     where City = 'San Jose'
      AND Rating >200;
 
-14.
-   
 
+14.
+SELECT SName, Comm 
+FROM Salespeople
+WHERE City='london';
+
+15.
+ select onum,sname 
+from salespeople s
+INNER JOIN  orders o
+ON s.snum=o.snum
+where sname = 'Motika';
+
+
+16.
+  SELECT CName, odate
+from customers c
+INNER JOIN orders o
+ON c.cnum=o.cnum
+where odate like'%-03-10'; 
+
+17.
+    select
+    o.odate, count(o.snum) As OrderCount, sum(o.amt) As AMOUNT
+     from
+     salespeople s
+     INNER JOIN orders o
+     ON s.snum = o.snum
+     
+     GROUP BY odate
+     Having(sum(o.amt))>2000	
+     Order by odate;
+
+18.
+select Onum, Odate, Amt
+from orders
+where Amt >ANY 
+(SELECT amt From orders 
+Where odate='19960610')
+Order by Odate;
+
+OR
+select * 
+from orders
+where Amt > 
+(SELECT MIN(amt) From orders 
+Where odate='19960610');
+
+
+19.
+
+
+OR
+
+19. SELECT Cname, Sname, rating
+     From salespeople s inner JOIN customers c
+     On s.snum=c.snum
+     WHERE rating  IN(300);
+
+20.
+
+
+WRONG
  
+20.
+SELECT  c1.rating, c1.Cname
+ From Customers c1 INNER join Customers c2
+On C1.Cnum=c2.Cnum
+Group by c1.rating;
+
+
+21.
+SELECT CNum, CName From Customers
+Where CNum>(1000 +
+(SELECT SNum From Salespeople 
+where sname='serres') ) ;
+
+
+22.
+SELECT SName, CONCAT('   ',ROUND(Comm*100),'%') As 'Comm' 
+FROM Salespeople
+Order By 'Comm in Percentage' ;
+
+23.
+select sname, odate, max(amt) 
+from salespeople s inner join orders o
+on s.snum=o.snum
+group by o.snum, odate
+Having(Max(amt))>3000; 
+
+24.
+SELECT e.SName, e.Odate, e.Amount
+From (select sname, odate, max(amt) AS Amount 
+from salespeople s inner join orders o
+on s.snum=o.snum
+group by o.snum, odate) e
+Where Odate='19960310'
+; 
+
+25. 
+SELECT Cname, City
+From Customers 
+Where City IN
+(SELECT  c.City From
+Salespeople s INNER JOIN Customers c
+ON s.SNUM=c.SNum
+where s.Snum=1002);
+
+
+  
