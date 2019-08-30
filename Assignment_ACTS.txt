@@ -1,0 +1,108 @@
+CREATE table Salespeople
+(
+SNUM int primary key not null,
+SName varchar(20),
+City varchar(20),
+Comm decimal(2,2)
+);
+
+
+insert into  salespeople values(1001,'Peel','Lodon',.12);
+insert into  salespeople values(1002,'Serres','San jose',.13);
+insert into  salespeople values(1004,'Motika','Lodon',.11);
+insert into  salespeople values(1007,'Rifkin','Barcelona',.15);
+insert into  salespeople values(1003,'Axelrod','New york',.10);
+insert into  salespeople values(1005,'Fran','Lodoon',.26);
+
+
+CREATE table Customers
+(
+Cnum int primary key not null,
+Cname varchar(20),
+City varchar(20),
+rating char(3),
+Snum int REFERENCES salespeople(SNUM)
+);
+
+
+insert into Customers values(2001,'Hoffman','london',100,1001);
+insert into Customers values(2002,'Giovanni','Rome',200,1003);
+insert into Customers values(2003,'Liu','San jose',200,1002);
+insert into Customers values(2004,'Grass','Berlin',300,1002);
+insert into Customers values(2006,'Clemens','london',100,1001);
+insert into Customers values(2008,'Cisneros','San jose',300,1007);
+insert into Customers values(2007,'Pereira','Rome',100,1004);
+
+
+
+
+CREATE Table Orders
+(
+Onum int primary key not null, 
+Amt decimal(8,2),
+Odate date,
+Cnum int REFERENCES customers(Cnum), 
+Snum int REFERENCES salespeople(Snum)
+);
+
+INSERT into Orders Values (3001, 18.69, 19960310, 2008, 1007);
+INSERT into Orders Values (3003, 767.19, 19960310, 2001, 1001);
+INSERT into Orders Values (3002, 1900.10, 19960310, 2007, 1004);
+INSERT into Orders Values (3005, 5160.45, 19960310, 2003, 1002);
+INSERT into Orders Values (3006, 1098.16, 19960310, 2008, 1007);
+INSERT into Orders Values (3009, 1713.23, 19960410, 2002, 1003);
+INSERT into Orders Values (3007, 75.75, 19960410, 2002, 1003);
+INSERT into Orders Values (3008, 4723.00, 19960510, 2006, 1001);
+INSERT into Orders Values (3010, 1309.95, 19960610, 2004, 1002);
+INSERT into Orders Values (3011, 9891.88, 19960610, 2006, 1001);
+
+
+1.	Desc salespeople;
+2. 
+	SELECT Cname,Rating FROM Customers
+	where rating=100;
+3.
+SElect * from customers 
+where city is null;
+
+4.
+  
+
+5.
+Select * from orders
+order by Cnum desc;
+
+6.
+SELECT Sname, Onum
+From salespeople s INNER JOIN orders o
+ON s.Snum=o.Snum;
+
+7.
+SELECT Cname, Sname
+From salespeople s INNER JOIN customers c
+On s.Snum=c.Snum;
+
+8
+SELECT s.Sname , count(s.snum)
+from salespeople s INNER JOIN customers c
+on s.snum=c.snum;
+
+
+9.select s
+
+
+10.SELECT * from customers 
+    where City = 'San Jose';
+
+11.  
+  SELECT
+
+
+13.SELECT CName from customers 
+    where City = 'San Jose'
+     AND Rating >200;
+
+14.
+   
+
+ 
